@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google"; // Using Inter for better readability and integration with Tailwind
+import ChatWidget from "@/components/ChatWidget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,6 +46,7 @@ export default function RootLayout({
     <html lang="en" className="!scroll-smooth">
       <body className={inter.className}>
         {children}
+        <ChatWidget />
       </body>
     </html>
   );
