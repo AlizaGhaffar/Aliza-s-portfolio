@@ -3,6 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 // Prevent Next.js from caching this route — responses must never be stale.
 export const dynamic = "force-dynamic";
 
+// Allow up to 45 seconds — HF Space free tier needs time to wake from sleep.
+export const maxDuration = 45;
+
 const FASTAPI_URL = process.env.FASTAPI_URL ?? "http://localhost:8000";
 
 export async function POST(request: NextRequest) {
@@ -13,6 +16,7 @@ export async function POST(request: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(40_000), // 40s — allows HF cold start
     });
 
     const data = await upstream.json();
