@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSessionId } from "@/hooks/useSessionId";
 
@@ -17,13 +16,15 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const sessionId = useSessionId();
 
-  // Auto-scroll to the latest message
+  // Auto-scroll to the latest message. Only the list scrolls, never the page.
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isOpen]);
+    if (isOpen && listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
+  }, [messages, isLoading, isOpen]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -77,59 +78,40 @@ export default function ChatWidget() {
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? "Close chat" : "Ask me about Aliza"}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-pink-600 text-white shadow-2xl shadow-violet-900/50 hover:from-violet-500 hover:to-pink-500 transition-all duration-300 hover:scale-105"
+        aria-expanded={isOpen}
+        className="btn-motion btn-gradient fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-pink-600 text-white shadow-2xl shadow-violet-900/50"
       >
-        <AnimatePresence mode="wait" initial={false}>
-          {isOpen ? (
-            <motion.svg
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </motion.svg>
-          ) : (
-            <motion.svg
-              key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </motion.svg>
-          )}
-        </AnimatePresence>
+        <svg
+          className={`chat-icon absolute h-6 w-6 ${isOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        <svg
+          className={`chat-icon absolute h-6 w-6 ${isOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+          />
+        </svg>
       </button>
 
       {/* ── Chat panel ────────────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            key="chat-panel"
-            initial={{ opacity: 0, y: 32, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 32, scale: 0.96 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed bottom-24 right-6 z-50 flex w-80 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#07070f]/95 backdrop-blur-md shadow-2xl shadow-violet-900/40 md:w-96"
-            style={{ maxHeight: "70vh" }}
-          >
+      <div
+        className={`chat-panel fixed bottom-24 right-6 z-50 flex w-[min(20rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#07070f]/95 shadow-2xl shadow-violet-900/40 md:w-96 ${isOpen ? "is-open" : ""}`}
+        style={{ maxHeight: "70vh" }}
+      >
             {/* Header */}
             <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.04] px-4 py-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-pink-600 shadow-lg shadow-violet-900/40">
@@ -147,7 +129,7 @@ export default function ChatWidget() {
             </div>
 
             {/* Message list */}
-            <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-4">
+            <div ref={listRef} className="flex flex-1 flex-col gap-3 overflow-y-auto overscroll-contain scroll-smooth p-4">
               {messages.length === 0 && (
                 <div className="mt-2 rounded-xl border border-white/[0.06] bg-white/[0.03] p-4 text-center">
                   <p className="text-xs text-slate-500 leading-relaxed">
@@ -174,16 +156,12 @@ export default function ChatWidget() {
                   {[0, 150, 300].map((delay) => (
                     <span
                       key={delay}
-                      className="h-1.5 w-1.5 rounded-full bg-violet-400"
-                      style={{
-                        animation: `bounce 1.2s ease-in-out ${delay}ms infinite`,
-                      }}
+                      className="typing-dot h-1.5 w-1.5 rounded-full bg-violet-400"
+                      style={{ animationDelay: `${delay}ms` }}
                     />
                   ))}
                 </div>
               )}
-
-              <div ref={bottomRef} />
             </div>
 
             {/* Input */}
@@ -198,22 +176,20 @@ export default function ChatWidget() {
                 placeholder="Ask about Aliza's work..."
                 disabled={isLoading || !sessionId}
                 maxLength={500}
-                className="flex-1 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white placeholder-slate-600 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30 disabled:opacity-50 transition-colors"
+                className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-base sm:text-sm text-white placeholder-slate-600 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30 disabled:opacity-50 transition-colors"
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim() || !sessionId}
                 aria-label="Send message"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-pink-600 text-white shadow-lg shadow-violet-900/30 hover:from-violet-500 hover:to-pink-500 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
+                className="btn-motion btn-gradient flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-pink-600 text-white shadow-lg shadow-violet-900/30 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
               </button>
             </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
     </>
   );
 }

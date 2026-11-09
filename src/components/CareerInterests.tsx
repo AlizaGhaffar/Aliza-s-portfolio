@@ -8,7 +8,12 @@ const goals = [
     gradient: 'from-pink-500 to-orange-500',
     border: 'border-pink-500/20 hover:border-pink-400/50',
     glow: 'hover:shadow-pink-900/30',
-    items: ['Agentic AI Engineer', 'AI Systems Architect'],
+    items: [
+      'Forward Deployed Engineer (FDE)',
+      'Agentic AI Engineer',
+      'AI Systems Engineer',
+      'Full-Stack AI Developer',
+    ],
     tagColor: 'bg-pink-500/10 text-pink-300 border-pink-500/20',
   },
   {
@@ -42,7 +47,7 @@ const CareerInterests: React.FC = () => (
       {goals.map((goal, i) => (
         <div
           key={i}
-          className={`group relative p-7 rounded-2xl bg-white/[0.03] border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${goal.border} ${goal.glow}`}
+          className={`group relative p-7 rounded-2xl bg-white/[0.03] border transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-xl ${goal.border} ${goal.glow}`}
         >
           {/* Header */}
           <div className="flex items-center gap-3 mb-5">

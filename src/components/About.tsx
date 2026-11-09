@@ -17,26 +17,30 @@ const About: React.FC = () => (
 
       {/* Glass card */}
       <div className="relative max-w-3xl mx-auto">
-        <div className="relative p-8 sm:p-10 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-sm overflow-hidden">
+        <div className="relative p-8 sm:p-10 rounded-2xl bg-white/[0.04] border border-white/10 overflow-hidden">
           {/* Left color bar */}
           <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-violet-500 via-pink-500 to-cyan-500 rounded-l-2xl" />
           {/* Glow corner */}
-          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-violet-600/10 blur-2xl pointer-events-none" />
+          <div
+            className="absolute -top-16 -right-16 w-64 h-64 pointer-events-none"
+            style={{ background: 'radial-gradient(circle, rgba(124,58,237,0.14) 0%, transparent 70%)' }}
+          />
 
           <p className="text-lg text-slate-300 leading-relaxed mb-5 pl-5">
-            Certified Agentic AI Engineer and spec-driven full-stack developer building scalable web
-            applications with integrated AI systems.
+            I&apos;m a BS Artificial Intelligence student at Sindh Madressatul Islam University (SMIU)
+            and an{' '}
+            <span className="text-violet-300 font-semibold">FDE &amp; Startup Founder Trainee</span>{' '}
+            under the Governor Sindh Initiative for Agentic AI.
           </p>
           <p className="text-lg text-slate-300 leading-relaxed mb-5 pl-5">
-            Passionate about creating intelligent user experiences where modern web engineering meets
-            applied AI.
+            As an Agentic AI and Full-Stack Developer, I work with Python, the OpenAI Agents SDK and
+            Cloud-Native Agentic AI, with a focus on AI agents, prompt and context engineering, and
+            full-stack application development.
           </p>
           <p className="text-lg text-slate-300 leading-relaxed pl-5">
-            Currently exploring{' '}
-            <span className="text-violet-300 font-semibold">Cloud-Native technologies</span> and
-            preparing for roles in{' '}
-            <span className="text-pink-300 font-semibold">Agentic AI</span> and{' '}
-            <span className="text-cyan-300 font-semibold">Physical AI Engineering</span>.
+            I&apos;m especially interested in{' '}
+            <span className="text-pink-300 font-semibold">Forward Deployed Engineering</span>:
+            applying AI and software engineering to solve real-world customer and operational problems.
           </p>
         </div>
       </div>

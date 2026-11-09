@@ -6,7 +6,7 @@ This is a modern, responsive, and animated personal portfolio website for Aliza 
 
 *   **Modern UI/UX**: Clean, professional design with a dark theme.
 *   **Responsive Layout**: Optimized for desktop, tablet, and mobile devices.
-*   **Animations**: Subtle scroll-based and entry animations using `framer-motion` for an engaging user experience.
+*   **Animations**: Subtle scroll-based and entry animations using lightweight CSS transitions for an engaging user experience.
 *   **Semantic HTML & Accessibility**: Built with best practices for accessibility and SEO.
 *   **Next.js App Router**: Utilizes the latest Next.js features for efficient development.
 *   **Tailwind CSS**: Utility-first CSS for rapid and consistent styling.
@@ -82,5 +82,5 @@ This project is open source and available under the [MIT License](LICENSE). *(No
 ## 🙏 Acknowledgements
 
 *   Built with Next.js, React, TypeScript, and Tailwind CSS.
-*   Animations powered by Framer Motion.
+*   Animations powered by CSS transitions and keyframes.
 *   Icons from Heroicons.

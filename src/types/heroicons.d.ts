@@ -8,6 +8,7 @@ declare module '@heroicons/react/24/outline' {
   >;
 
   export const AcademicCapIcon: SVGIconComponent;
+  export const ArrowDownTrayIcon: SVGIconComponent;
   export const ArrowTopRightOnSquareIcon: SVGIconComponent;
   export const Cog6ToothIcon: SVGIconComponent;
   export const CodeBracketSquareIcon: SVGIconComponent;

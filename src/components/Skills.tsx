@@ -95,7 +95,7 @@ const Skills: React.FC = () => (
         {skills.map((skill, i) => (
           <div
             key={i}
-            className={`group relative p-5 rounded-2xl bg-white/[0.03] border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${skill.border} ${skill.glow}`}
+            className={`group relative p-5 rounded-2xl bg-white/[0.03] border transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-xl ${skill.border} ${skill.glow}`}
           >
             {/* Category badge */}
             <div className={`inline-flex items-center px-3 py-1.5 rounded-lg bg-gradient-to-r ${skill.gradient} mb-4 shadow-md`}>

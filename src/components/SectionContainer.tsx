@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import { motion, useInView } from 'framer-motion';
 
 interface SectionContainerProps {
   id: string;
@@ -11,19 +10,37 @@ interface SectionContainerProps {
 
 const SectionContainer: React.FC<SectionContainerProps> = ({ id, children, className = '' }) => {
   const ref = React.useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px 0px' });
+  const [isVisible, setIsVisible] = React.useState(false);
 
+  React.useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '-80px 0px' }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  // The transform sits on an inner wrapper so the anchor target (#id) is never offset,
+  // which keeps navbar links landing in the correct place.
   return (
-    <motion.section
+    <section
       id={id}
-      ref={ref}
       className={`py-20 md:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
     >
-      {children}
-    </motion.section>
+      <div ref={ref} className={`reveal ${isVisible ? 'is-visible' : ''}`}>
+        {children}
+      </div>
+    </section>
   );
 };
 

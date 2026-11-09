@@ -1,21 +1,28 @@
-/* @import MUST come before @tailwind directives */
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Inter:ital,wght@0,300..900;1,300..900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html,
 body {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
   background-color: #07070f;
   color: #f1f5f9;
-  font-family: 'Inter', sans-serif;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
 }
 
 ::-webkit-scrollbar {
@@ -32,9 +39,14 @@ body {
   background: linear-gradient(to bottom, #7c3aed, #db2777);
 }
 
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50%       { background-position: 100% 50%; }
+@keyframes gradientFadeMiddle {
+  0%, 100% { opacity: 0; }
+  25%, 75% { opacity: 1; }
+}
+
+@keyframes gradientFadeEnd {
+  0%, 25%, 75%, 100% { opacity: 0; }
+  50%                { opacity: 1; }
 }
 
 @keyframes float {
@@ -42,7 +54,210 @@ body {
   50%       { transform: translateY(-24px); }
 }
 
+@keyframes fadeUp {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes orbDrift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%       { transform: translate3d(var(--orb-x), var(--orb-y), 0); }
+}
+
+@keyframes scrollCue {
+  0%, 100% { transform: scaleY(1);   opacity: 0.8; }
+  50%       { transform: scaleY(0.4); opacity: 0.2; }
+}
+
+@keyframes typingDot {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+/*
+ * Animating background-position repaints the text on the main thread every frame.
+ * Crossfading between copies of the text (from the element's data-text attribute),
+ * with the gradient at its middle and end positions, gives the same colour shift
+ * on the compositor.
+ */
 .animate-gradient-shift {
+  position: relative;
   background-size: 200% 200%;
-  animation: gradientShift 4s ease infinite;
+  background-position: 0% 50%;
+}
+
+.animate-gradient-shift::before,
+.animate-gradient-shift::after {
+  content: attr(data-text);
+  content: attr(data-text) / '';
+  position: absolute;
+  inset: 0;
+  background-image: inherit;
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  pointer-events: none;
+}
+
+.animate-gradient-shift::before {
+  background-position: 50% 50%;
+  animation: gradientFadeMiddle 4s linear infinite;
+}
+
+.animate-gradient-shift::after {
+  background-position: 100% 50%;
+  animation: gradientFadeEnd 4s linear infinite;
+}
+
+/* All motion below animates transform and opacity only, so it stays off the main thread. */
+
+/* Hero entrance: runs from first paint, without waiting for JavaScript to hydrate. */
+.hero-item {
+  animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+.hero-orb {
+  animation: orbDrift var(--orb-duration) ease-in-out var(--orb-delay, 0s) infinite;
+}
+
+.scroll-cue {
+  animation: fadeIn 0.6s ease 1.2s both;
+}
+
+.scroll-cue-line {
+  animation: scrollCue 1.6s ease-in-out infinite;
+}
+
+/* Section entrance */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Button hover and press feedback */
+.btn-motion {
+  transition:
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.btn-motion:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-motion:hover {
+    transform: translateY(-2px);
+  }
+  .btn-motion:active {
+    transform: scale(0.97);
+  }
+}
+
+/* Gradients cannot be transitioned, so the hover lightening fades in as an overlay. */
+@layer components {
+  /* In the components layer so that utilities such as `fixed` can still override it. */
+  .btn-gradient {
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.btn-gradient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.12);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-gradient:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Chat panel and mobile menu stay mounted, so they can animate both ways. */
+.chat-panel {
+  transform-origin: bottom right;
+}
+
+.chat-panel,
+.mobile-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 32px, 0) scale(0.96);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.2s;
+}
+
+.mobile-menu {
+  transform: translate3d(0, -8px, 0);
+}
+
+.chat-panel.is-open,
+.mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.chat-icon {
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.typing-dot {
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-orb {
+    animation: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .btn-motion:hover,
+  .btn-motion:active {
+    transform: none;
+  }
 }

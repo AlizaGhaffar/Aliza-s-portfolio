@@ -11,12 +11,15 @@ const Footer: React.FC = () => {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent" />
 
       {/* Soft glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-32 bg-violet-600/5 blur-3xl pointer-events-none" />
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-48 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.08) 0%, transparent 70%)' }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand */}
-          <span className="font-mono font-bold text-xl bg-gradient-to-r from-violet-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-shift">
+          <span data-text="aliza.dev" className="font-mono font-bold text-xl bg-gradient-to-r from-violet-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-shift">
             aliza.dev
           </span>
 
@@ -41,7 +44,7 @@ const Footer: React.FC = () => {
               GitHub
             </Link>
             <Link
-              href="https://www.linkedin.com/in/aliza-ghaffar-148732bb"
+              href="https://www.linkedin.com/in/aliza-ghaffar-1487362bb"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-slate-400 hover:text-violet-300 text-sm transition-colors"

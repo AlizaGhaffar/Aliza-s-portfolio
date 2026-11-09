@@ -9,6 +9,8 @@ export type Project = {
   title: string;
   link: string;
   description?: string;
+  links?: { label: string; href: string }[];
+  youtube?: { id: string; title: string };
   techStack?: {
     backend?: string[];
     frontend?: string[];

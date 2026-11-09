@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // Stops hover styles from sticking after a tap on touch screens.
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -10,6 +14,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         mono: ['"Fira Code"', 'monospace'],
+      },
+      transitionTimingFunction: {
+        DEFAULT: 'cubic-bezier(0.22, 1, 0.36, 1)',
       },
       colors: {
         primary: {

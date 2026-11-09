@@ -47,7 +47,7 @@ const DevelopmentApproach: React.FC = () => (
         {cards.map((card, i) => (
           <div
             key={i}
-            className={`group relative p-7 rounded-2xl bg-white/[0.03] border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${card.border} ${card.glow}`}
+            className={`group relative p-7 rounded-2xl bg-white/[0.03] border transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-xl ${card.border} ${card.glow}`}
           >
             {/* Icon + title */}
             <div className="flex items-center gap-3 mb-5">
