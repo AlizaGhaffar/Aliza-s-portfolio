@@ -57,6 +57,36 @@ const projects: Project[] = [
     },
   },
   {
+    title: 'Token-Efficient Coding Agent',
+    link: 'https://github.com/sharjeelmajeed/Token-Efficient-Coding-Agent',
+    description:
+      'A team project: a policy-enforced coding agent built around a single FastAPI core that owns security policy, execution, persistence, and budget accounting, with thin CLI, VS Code, and read-only GitHub PR review clients. Every file edit and command needs a human approval bound to the exact diff, commands run in a network-disabled Docker sandbox, and nine switchable token-saving techniques cut model usage.',
+    links: [{ label: 'GitHub', href: 'https://github.com/sharjeelmajeed/Token-Efficient-Coding-Agent' }],
+    techStack: {
+      backend: ['Python', 'FastAPI'],
+      frontend: ['VS Code Extension (TypeScript)', 'Typer CLI'],
+      database: ['SQLite'],
+      developmentTools: ['Maxim AI Bifrost', 'Ollama', 'Tavily', 'Docker'],
+      skills: ['Token Optimization', 'Human-in-the-Loop', 'Sandboxed Execution'],
+    },
+  },
+  {
+    title: 'Smart Buyer AI',
+    link: 'https://frontend-beta-eight-18.vercel.app/',
+    description:
+      'A knowledge-based system that finds international companies likely to buy raw sheep wool, duck down, or cashmere. It crawls company websites, extracts grounded facts with offline NLP, and reasons over product rules to classify each lead with an explainable evidence score, cutting the false-positive rate from 85% to 15%.',
+    links: [
+      { label: 'Live Demo', href: 'https://frontend-beta-eight-18.vercel.app/' },
+      { label: 'GitHub', href: 'https://github.com/AlizaGhaffar/Smart-Buyer-AI' },
+    ],
+    techStack: {
+      backend: ['Python', 'FastAPI', 'BeautifulSoup'],
+      frontend: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS'],
+      developmentTools: ['pytest', 'Docker'],
+      skills: ['Knowledge Representation & Reasoning', 'NLP Extraction', 'Explainable AI'],
+    },
+  },
+  {
     title: 'Physical AI Robotics Book with RAG-based Chatbot',
     link: 'https://physical-ai-robotics-book.vercel.app/',
     links: [{ label: 'GitHub', href: 'https://github.com/AlizaGhaffar/hackathon-physical-ai---robotics-book' }],

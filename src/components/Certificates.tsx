@@ -6,13 +6,13 @@ import SectionContainer from './SectionContainer';
 
 const certificates = [
   {
-    title: 'Engineer AI Agents with Agent Development Kit (ADK)',
-    issuer: 'Google Cloud Skills Boost',
-    detail: 'April 2026',
-    image: '/certificates/engineer-ai-agents-adk.webp',
-    alt: 'Google Cloud skill badge: Engineer AI Agents with Agent Development Kit (ADK)',
-    bar: 'from-cyan-500 to-blue-500',
-    link: { label: 'Verify Credential', href: 'https://www.credly.com/go/tWjW6rxR1wLS3ZU5JwUi8A' },
+    title: 'Certificate of Appreciation — Winner',
+    issuer: 'NASA Space Apps Challenge Karachi 2026',
+    detail: 'Winner for the challenge "Field Shift Adaptive Farming" — 15 November 2026',
+    image: '/certificates/nasa-space-apps-karachi-2026-winner.jpeg',
+    alt: 'NASA Space Apps Challenge Karachi 2026 Certificate of Appreciation presented to Aliza Ghaffar as Winner for Field Shift Adaptive Farming',
+    bar: 'from-violet-500 to-pink-500',
+    link: { label: 'View Certificate', href: '/certificates/nasa-space-apps-karachi-2026-winner.jpeg' },
   },
   {
     title: 'Certificate of Achievement — Regional Shortlist',
@@ -22,6 +22,15 @@ const certificates = [
     alt: 'AI Seekho 2026 Certificate of Achievement presented to Aliza Ghaffar for reaching the Regional Shortlist',
     bar: 'from-orange-500 to-pink-500',
     link: { label: 'View Certificate', href: '/certificates/ai-seekho-2026-regional-shortlist.webp' },
+  },
+  {
+    title: 'Engineer AI Agents with Agent Development Kit (ADK)',
+    issuer: 'Google Cloud Skills Boost',
+    detail: 'April 2026',
+    image: '/certificates/engineer-ai-agents-adk.webp',
+    alt: 'Google Cloud skill badge: Engineer AI Agents with Agent Development Kit (ADK)',
+    bar: 'from-cyan-500 to-blue-500',
+    link: { label: 'Verify Credential', href: 'https://www.credly.com/go/tWjW6rxR1wLS3ZU5JwUi8A' },
   },
 ];
 
